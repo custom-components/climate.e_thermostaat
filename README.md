@@ -1,3 +1,7 @@
+[![Version](https://img.shields.io/badge/version-0.2.0-green.svg?style=for-the-badge)](#) [![mantained](https://img.shields.io/maintenance/yes/2018.svg?style=for-the-badge)](#)
+
+[![maintainer](https://img.shields.io/badge/maintainer-%20%40gerard33-blue.svg?style=for-the-badge)](#)
+
 # custom_component for Dutch E-thermostaat (ICY)
 A platform which allows you to interact with the Dutch E-Thermostaat (ICY).
 
