@@ -8,7 +8,9 @@ A platform which allows you to interact with the Dutch E-Thermostaat (ICY).
 To get started put `/custom_components/e_thermostaat/climate.py` here:
 
 `<config directory>/custom_components/e_thermostaat/climate.py`  
-  
+
+Starting with Home Assistant 0.92 you also need to copy the file `/custom_components/e_thermostaat/__init__.py` to `<config directory>/custom_components/e_thermostaat/__init__.py`
+
 **Example configuration.yaml:**
 
 ```yaml
