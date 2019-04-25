@@ -37,8 +37,3 @@ key | description
 
 This platform is using the [E-Thermostaat API](https://www.e-thermostaat.nl/) to get the information from the thermostat.
 This component is only usefull for Dutch users as the E-Thermostaat is only sold in The Netherlands.
-  
-***
-Due to how `custom_components` are loaded, it is normal to see a `ModuleNotFoundError` error on first boot after adding this, to resolve it, restart Home-Assistant.
-
-***
