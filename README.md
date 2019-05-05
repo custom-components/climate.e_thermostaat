@@ -2,8 +2,10 @@
 
 [![maintainer](https://img.shields.io/badge/maintainer-%20%40gerard33-blue.svg?style=for-the-badge)](#)
 
-# custom_component for Dutch E-thermostaat (ICY)
+# Custom component for Dutch E-thermostaat (ICY)
 A platform which allows you to interact with the Dutch E-Thermostaat (ICY).
+
+See [this](https://community.home-assistant.io/t/e-thermostaat-icy/493?u=gerard33) post on the HA forum for more info.
 
 To get started put `/custom_components/e_thermostaat/climate.py` here:
 
