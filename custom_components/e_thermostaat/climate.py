@@ -18,7 +18,7 @@ from homeassistant.const import (
     ATTR_TEMPERATURE, CONF_USERNAME, CONF_PASSWORD, TEMP_CELSIUS)
 import homeassistant.helpers.config_validation as cv
 
-__version__ = '0.2.1'
+__version__ = '0.2.2'
 
 _LOGGER = logging.getLogger(__name__)
 
