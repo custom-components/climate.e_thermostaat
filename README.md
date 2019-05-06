@@ -1,5 +1,4 @@
 [![Version](https://img.shields.io/badge/version-0.2.2-green.svg?style=for-the-badge)](#) [![mantained](https://img.shields.io/maintenance/yes/2019.svg?style=for-the-badge)](#)
-
 [![maintainer](https://img.shields.io/badge/maintainer-%20%40gerard33-blue.svg?style=for-the-badge)](#)
 
 # Custom component for Dutch E-thermostaat (ICY)
