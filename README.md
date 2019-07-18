@@ -1,4 +1,7 @@
-[![Version](https://img.shields.io/badge/version-0.2.2-green.svg?style=for-the-badge)](#) [![mantained](https://img.shields.io/maintenance/yes/2019.svg?style=for-the-badge)](#) [![maintainer](https://img.shields.io/badge/maintainer-%20%40gerard33-blue.svg?style=for-the-badge)](#)
+[![Version](https://img.shields.io/badge/version-0.2.2-green.svg?style=for-the-badge)](#) [![mantained](https://img.shields.io/maintenance/yes/2019.svg?style=for-the-badge)](#) [![maintainer](https://img.shields.io/badge/maintainer-%20%40gerard33-blue.svg?style=for-the-badge)](#)[![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
+
+# This component only works on HA 0.96 and later. If you are on an older version user release 0.2.3 of this component.
+# When using HACS the right version will automatically be shown.
 
 # Custom component for Dutch E-thermostaat (ICY)
 A platform which allows you to interact with the Dutch E-Thermostaat (ICY).
@@ -9,7 +12,7 @@ To get started put `/custom_components/e_thermostaat/climate.py` here:
 
 `<config directory>/custom_components/e_thermostaat/climate.py`  
 
-Starting with Home Assistant 0.92 you also need to copy the file `/custom_components/e_thermostaat/__init__.py` to `<config directory>/custom_components/e_thermostaat/__init__.py`
+Starting with Home Assistant 0.92 you also need to copy the file `/custom_components/e_thermostaat/__init__.py` to `<config directory>/custom_components/e_thermostaat/__init__.py` and `/custom_components/e_thermostaat/manifest.json` to `<config directory>/custom_components/e_thermostaat/manifest.json`
 
 **Example configuration.yaml:**
 
