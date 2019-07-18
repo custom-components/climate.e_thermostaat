@@ -6,5 +6,6 @@
   "dependencies": [],
   "codeowners": [
     "@gerard33"
-  ]
+  ],
+  "homeassistant": "0.96.0"
 }
