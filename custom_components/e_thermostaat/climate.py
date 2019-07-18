@@ -8,17 +8,15 @@ import requests
 import voluptuous as vol
 
 from homeassistant.components.climate import ClimateDevice, PLATFORM_SCHEMA
-try:
-    from homeassistant.components.climate.const import (
-        SUPPORT_OPERATION_MODE, SUPPORT_TARGET_TEMPERATURE, SUPPORT_AWAY_MODE)
-except ImportError:
-    from homeassistant.components.climate import (
-        SUPPORT_OPERATION_MODE, SUPPORT_TARGET_TEMPERATURE, SUPPORT_AWAY_MODE)
+from homeassistant.components.climate.const import (
+    HVAC_MODE_HEAT, PRESET_AWAY, PRESET_COMFORT, PRESET_HOME, PRESET_SLEEP,
+    SUPPORT_PRESET_MODE, SUPPORT_TARGET_TEMPERATURE, CURRENT_HVAC_HEAT,
+    CURRENT_HVAC_IDLE)
 from homeassistant.const import (
     ATTR_TEMPERATURE, CONF_USERNAME, CONF_PASSWORD, TEMP_CELSIUS)
 import homeassistant.helpers.config_validation as cv
 
-__version__ = '0.2.2'
+__version__ = '0.3.0'
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -32,10 +30,10 @@ CONF_COMFORT_TEMPERATURE = 'comfort_temperature'
 CONF_SAVING_TEMPERATURE = 'saving_temperature'
 CONF_AWAY_TEMPERATURE = 'away_temperature'
 
-STATE_COMFORT = "Comfortstand"          # "comfort"
-STATE_SAVING = "Bespaarstand"           # "saving"
-STATE_AWAY = "Lang-weg-stand"           # "away"
-STATE_FIXED_TEMP = "Vaste temperatuur"  # "fixed temperature"
+STATE_COMFORT = "Comfortstand"            # "comfort"
+STATE_SAVING = "Bespaarstand"             # "saving"
+STATE_AWAY = "Lang-weg-stand"             # "away"
+STATE_FIXED_TEMP = "Vaste temperatuur"    # "fixed temperature"
 
 DEFAULT_COMFORT_TEMPERATURE = 20
 DEFAULT_SAVING_TEMPERATURE = 17
@@ -43,7 +41,7 @@ DEFAULT_AWAY_TEMPERATURE = 12
 
 # Values from web interface
 MIN_TEMP = 10
-MAX_TEMP = 30
+MAX_TEMP = 25
 
 # Values of E-Thermostaat to map to operation mode
 COMFORT = 32
@@ -51,8 +49,8 @@ SAVING = 64
 AWAY = 0
 FIXED_TEMP = 128
 
-SUPPORT_FLAGS = (SUPPORT_TARGET_TEMPERATURE | SUPPORT_OPERATION_MODE |
-                 SUPPORT_AWAY_MODE)
+SUPPORT_FLAGS = SUPPORT_PRESET_MODE | SUPPORT_TARGET_TEMPERATURE
+SUPPORT_PRESET = [STATE_AWAY, STATE_COMFORT, STATE_FIXED_TEMP, STATE_SAVING]
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
@@ -66,7 +64,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
                  default=DEFAULT_COMFORT_TEMPERATURE): vol.Coerce(float)
 })
 
-def setup_platform(hass, config, add_devices, discovery_info=None):
+def setup_platform(hass, config, add_entities, discovery_info=None):
     """Setup the E-Thermostaat Platform."""
     name = config.get(CONF_NAME)
     comfort_temp = config.get(CONF_COMFORT_TEMPERATURE)
@@ -75,7 +73,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     username = config.get(CONF_USERNAME)
     password = config.get(CONF_PASSWORD)
 
-    add_devices([EThermostaat(
+    add_entities([EThermostaat(
         name, username, password,
         comfort_temp, saving_temp, away_temp)])
 
@@ -101,14 +99,17 @@ class EThermostaat(ClimateDevice):
         self._uid = None
         self._token = None
 
-        self._operation_list = [STATE_COMFORT, STATE_SAVING,
-                                STATE_AWAY, STATE_FIXED_TEMP]
         self.update()
 
     @property
     def name(self):
-        """Return the name of the Device."""
+        """Return the name of the thermostat."""
         return self._name
+
+    @property
+    def unique_id(self) -> str:
+        """Return the unique ID for this thermostat."""
+        return '_'.join([self._name, 'climate'])
 
     @property
     def should_poll(self):
@@ -141,14 +142,31 @@ class EThermostaat(ClimateDevice):
         return self._target_temperature
 
     @property
-    def operation_list(self):
-        """List of available operation modes."""
-        return self._operation_list
+    def hvac_mode(self):
+        """Return hvac operation ie. heat, cool mode."""
+        return HVAC_MODE_HEAT
 
     @property
-    def current_operation(self):
-        """Return current operation mode."""
+    def hvac_modes(self):
+        """HVAC modes."""
+        return [HVAC_MODE_HEAT]
+
+    @property
+    def hvac_action(self):
+        """Return the current running hvac operation."""
+        if self._target_temperature < self._current_temperature:
+            return CURRENT_HVAC_IDLE
+        return CURRENT_HVAC_HEAT
+
+    @property
+    def preset_mode(self):
+        """Return the current preset mode, e.g., home, away, temp."""
         return self._current_operation_mode
+
+    @property
+    def preset_modes(self):
+        """Return a list of available preset modes."""
+        return SUPPORT_PRESET
 
     @property
     def is_away_mode_on(self):
@@ -160,25 +178,17 @@ class EThermostaat(ClimateDevice):
         """Return the list of supported features."""
         return SUPPORT_FLAGS
 
-    def set_operation_mode(self, operation_mode):
-        """Set new operation mode."""
-        if operation_mode == STATE_COMFORT:
+    def set_preset_mode(self, preset_mode: str):
+        """Set new preset mode."""
+        if preset_mode == STATE_COMFORT:
             self._set_temperature(self._comfort_temp, mode_int=COMFORT)
-        elif operation_mode == STATE_SAVING:
+        elif preset_mode == STATE_SAVING:
             self._set_temperature(self._saving_temp, mode_int=SAVING)
-        elif operation_mode == STATE_AWAY:
+        elif preset_mode == STATE_AWAY:
             self._set_temperature(self._away_temp, mode_int=AWAY)
-        elif operation_mode == STATE_FIXED_TEMP:
+        elif preset_mode == STATE_FIXED_TEMP:
             self._set_temperature(self._target_temperature,
                                   mode_int=FIXED_TEMP)
-
-    def turn_away_mode_on(self):
-        """Turn away on."""
-        self._set_temperature(self._away_temp, mode_int=AWAY)
-
-    def turn_away_mode_off(self):
-        """Turn away off and set comfort temp."""
-        self._set_temperature(self._comfort_temp, mode_int=COMFORT)
 
     def set_temperature(self, **kwargs):
         """Set new target temperature."""
