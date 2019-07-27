@@ -1,16 +1,16 @@
 {% if installed %}
-### Thanks for using this custom component.
-
+**Thanks for using this custom component.**
+<br>
 {% endif %}
 
 {% if prerelease %}
-### This is a Beta version!
-
+**This is a Beta version!**
+<br>
 {% endif %}
 
 {% if installed and version_installed < "0.3.0" %}
-### Version 0.3.0 and later of this component only work on HA 0.96 and later. If you are on an older version of HA use [release 0.2.3](https://github.com/custom-components/climate.e_thermostaat/releases/tag/0.2.3) of this component.
-
+**Version 0.3.0 and later of this component only work on HA 0.96 and later. If you are on an older version of HA use [release 0.2.3](https://github.com/custom-components/climate.e_thermostaat/releases/tag/0.2.3) of this component.**
+<br>
 {% endif %}
 
 [![Version](https://img.shields.io/badge/version-0.3.0-green.svg?style=for-the-badge)](#)
@@ -25,7 +25,9 @@ A platform which allows you to interact with the Dutch E-Thermostaat (ICY).
 ## Screenshot
 _ICY E-Thermostaat_
 
-![ICY E-Thermostaat](https://github.com/custom-components/climate.e_thermostaat/blob/master/screenshots/e_thermostaat.jpg)
+<kbd>
+  <img src="https://github.com/custom-components/climate.e_thermostaat/blob/master/screenshots/e_thermostaat.jpg">
+</kbd>
 
 ## Configuration
 **Example configuration.yaml:**
