@@ -1,19 +1,28 @@
 {% if installed %}
 **Thanks for using this custom component.**
+
 <br>
+
+
 {% endif %}
 
 {% if prerelease %}
 **This is a Beta version!**
+
 <br>
+
+
 {% endif %}
 
 {% if installed and version_installed < "0.3.0" %}
 **Version 0.3.0 and later of this component only work on HA 0.96 and later. If you are on an older version of HA use [release 0.2.3](https://github.com/custom-components/climate.e_thermostaat/releases/tag/0.2.3) of this component.**
+
 <br>
+
+
 {% endif %}
 
-[![Version](https://img.shields.io/badge/version-0.3.0-green.svg?style=for-the-badge)](#)
+[![Version](https://img.shields.io/badge/version-0.3.1-green.svg?style=for-the-badge)](#)
 [![mantained](https://img.shields.io/maintenance/yes/2019.svg?style=for-the-badge)](#)
 [![maintainer](https://img.shields.io/badge/maintainer-%20%40gerard33-blue.svg?style=for-the-badge)](#)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
@@ -53,6 +62,7 @@ key | description
 **saving_temperature (Optional)** | The saving temperature (Bespaarstand), defaults to 17.  
 **away_temperature (Optional)** | The away temperature (Lang-weg-stand), defaults to 12.  
 
+<br>
 
 This platform is using the [E-Thermostaat API](https://www.e-thermostaat.nl/) to get the information from the thermostat.
 This component is only usefull for Dutch users as the E-Thermostaat is only sold in The Netherlands.
