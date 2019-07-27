@@ -1,26 +1,31 @@
 {% if installed %}
 ### Thanks for using this custom component.
+
 {% endif %}
 
 {% if prerelease %}
 ### This is a Beta version!
+
 {% endif %}
 
-[![Version](https://img.shields.io/badge/version-0.3.0-green.svg?style=for-the-badge)](#) [![mantained](https://img.shields.io/maintenance/yes/2019.svg?style=for-the-badge)](#) [![maintainer](https://img.shields.io/badge/maintainer-%20%40gerard33-blue.svg?style=for-the-badge)](#) [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
+{% if installed and version_installed < "0.3.0" %}
+### Version 0.3.0 and later of this component only work on HA 0.96 and later. If you are on an older version of HA use [release 0.2.3](https://github.com/custom-components/climate.e_thermostaat/releases/tag/0.2.3) of this component.
 
-### This component only works on HA 0.96 and later. If you are on an older version of HA use [release 0.2.3](https://github.com/custom-components/climate.e_thermostaat/releases/tag/0.2.3) of this component.
-### When using HACS installing version 0.3.0 is only allowed for HA version 0.96 and newer.
+{% endif %}
+
+[![Version](https://img.shields.io/badge/version-0.3.0-green.svg?style=for-the-badge)](#)
+[![mantained](https://img.shields.io/maintenance/yes/2019.svg?style=for-the-badge)](#)
+[![maintainer](https://img.shields.io/badge/maintainer-%20%40gerard33-blue.svg?style=for-the-badge)](#)
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
+[![Community Forum](https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge)](https://community.home-assistant.io/t/e-thermostaat-icy/493?u=gerard33)
 
 # Custom component for Dutch E-thermostaat (ICY)
 A platform which allows you to interact with the Dutch E-Thermostaat (ICY).
 
-## HA forum
-See [this](https://community.home-assistant.io/t/e-thermostaat-icy/493?u=gerard33) post on the HA forum for more info.
-
 ## Screenshot
 _ICY E-Thermostaat_
 
-![ICY E-Thermostaat](screenshots/e_thermostaat.jpg)
+![ICY E-Thermostaat](https://github.com/custom-components/climate.e_thermostaat/blob/master/screenshots/e_thermostaat.jpg)
 
 ## Configuration
 **Example configuration.yaml:**
