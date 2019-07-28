@@ -8,12 +8,17 @@ A platform which allows you to interact with the Dutch E-Thermostaat (ICY).
 
 See [this](https://community.home-assistant.io/t/e-thermostaat-icy/493?u=gerard33) post on the HA forum for more info.
 
-To get started put `/custom_components/e_thermostaat/climate.py` here:
+## Installation
+You can use HACS or install the component manually by putting the files from `/custom_components/e_thermostaat/` in your folder `<config directory>/custom_components/e_thermostaat/` 
 
-`<config directory>/custom_components/e_thermostaat/climate.py`  
+## Screenshot
+_ICY E-Thermostaat_
 
-Starting with Home Assistant 0.92 you also need to copy the file `/custom_components/e_thermostaat/__init__.py` to `<config directory>/custom_components/e_thermostaat/__init__.py` and `/custom_components/e_thermostaat/manifest.json` to `<config directory>/custom_components/e_thermostaat/manifest.json`
+<kbd>
+  <img src="https://github.com/custom-components/climate.e_thermostaat/blob/master/screenshots/e_thermostaat.jpg">
+</kbd>
 
+## Configuration
 **Example configuration.yaml:**
 
 ```yaml
