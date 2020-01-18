@@ -22,7 +22,7 @@
 
 {% endif %}
 
-[![Version](https://img.shields.io/badge/version-0.3.2-green.svg?style=for-the-badge)](#)
+[![Version](https://img.shields.io/badge/version-0.3.3-green.svg?style=for-the-badge)](#)
 [![mantained](https://img.shields.io/maintenance/no/2020.svg?style=for-the-badge)](#)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
 [![Community Forum](https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge)](https://community.home-assistant.io/t/e-thermostaat-icy/493?u=gerard33)
