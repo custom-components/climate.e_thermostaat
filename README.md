@@ -1,4 +1,6 @@
-[![Version](https://img.shields.io/badge/version-0.3.3-green.svg?style=for-the-badge)](#)
+![Validate with hassfest](https://github.com/custom-components/climate.e_thermostaat/workflows/Validate%20with%20hassfest/badge.svg)
+
+
 [![mantained](https://img.shields.io/maintenance/no/2020.svg?style=for-the-badge)](#)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
 [![Community Forum](https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge)](https://community.home-assistant.io/t/e-thermostaat-icy/493?u=gerard33)
