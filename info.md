@@ -22,6 +22,7 @@
 
 {% endif %}
 
+![Validate](https://github.com/custom-components/climate.e_thermostaat/workflows/Validate/badge.svg)
 ![Validate with hassfest](https://github.com/custom-components/climate.e_thermostaat/workflows/Validate%20with%20hassfest/badge.svg)
 
 [![mantained](https://img.shields.io/maintenance/no/2020.svg?style=for-the-badge)](#)
