@@ -31,18 +31,18 @@
 
 ### This component is no longer maintained as I don't own an ICY e-thermostaat anymore. I can still merge PRs made and tested by the community and release new versions.
 
-# Custom component for Dutch E-thermostaat (ICY)
+## Custom component for Dutch E-thermostaat (ICY)
 A platform which allows you to interact with the Dutch E-Thermostaat (ICY).
 
-## Screenshot
+### Screenshot
 _ICY E-Thermostaat_
 
 <kbd>
   <img src="https://github.com/custom-components/climate.e_thermostaat/blob/master/screenshots/e_thermostaat.jpg">
 </kbd>
 
-## Configuration
-**Example configuration.yaml:**
+### Configuration
+#### Example configuration.yaml
 
 ```yaml
 climate:
@@ -54,7 +54,7 @@ climate:
     away_temperature: 12
 ```
 
-**Configuration variables:**  
+#### Configuration variables
   
 key | description  
 :--- | :---  
