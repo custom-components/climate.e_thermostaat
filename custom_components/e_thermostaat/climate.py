@@ -7,7 +7,10 @@ import logging
 import requests
 import voluptuous as vol
 
-from homeassistant.components.climate import ClimateDevice, PLATFORM_SCHEMA
+try:
+    from homeassistant.components.climate import ClimateEntity, PLATFORM_SCHEMA
+except ImportError:
+    from homeassistant.components.climate import ClimateDevice as ClimateEntity, PLATFORM_SCHEMA
 from homeassistant.components.climate.const import (
     HVAC_MODE_HEAT, PRESET_AWAY, PRESET_COMFORT, PRESET_HOME, PRESET_SLEEP,
     SUPPORT_PRESET_MODE, SUPPORT_TARGET_TEMPERATURE, CURRENT_HVAC_HEAT,
@@ -16,7 +19,7 @@ from homeassistant.const import (
     ATTR_TEMPERATURE, CONF_USERNAME, CONF_PASSWORD, TEMP_CELSIUS)
 import homeassistant.helpers.config_validation as cv
 
-__version__ = '0.3.0'
+__version__ = '0.3.4'
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -77,7 +80,7 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
         name, username, password,
         comfort_temp, saving_temp, away_temp)])
 
-class EThermostaat(ClimateDevice):
+class EThermostaat(ClimateEntity):
     """Representation of a E-Thermostaat device."""
 
     def __init__(self, name, username, password,
