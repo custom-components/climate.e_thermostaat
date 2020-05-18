@@ -1,4 +1,4 @@
-![Validate](https://github.com/custom-components/climate.e_thermostaat/workflows/Validate/badge.svg)
+![Validate with HACS](https://github.com/custom-components/climate.e_thermostaat/workflows/Validate%20with%20HACS/badge.svg)
 ![Validate with hassfest](https://github.com/custom-components/climate.e_thermostaat/workflows/Validate%20with%20hassfest/badge.svg)
 
 
