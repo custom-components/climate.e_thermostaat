@@ -1,5 +1,5 @@
 {
-  "name": "ICY E-Thermostaat",
+  "name": "ICY E-thermostaat",
   "domains": ["climate"],
   "iot_class": "Cloud Polling",
   "homeassistant": "0.96.0"
