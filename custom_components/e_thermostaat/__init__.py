@@ -1,1 +1,1 @@
-"""ICY E-Thermostaat init file"""
+"""ICY E-Thermostaat init file."""
