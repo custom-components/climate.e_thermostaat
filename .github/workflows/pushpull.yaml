@@ -42,10 +42,10 @@ jobs:
           flake8 --version
           flake8 .
 
-      - run: |
-          pip3 install isort
-          isort --version
-          isort --check-only --verbose
+#       - run: |
+#           pip3 install isort
+#           isort --version
+#           isort --check-only --verbose
 
       - run: |
           pip3 install yamllint
