@@ -32,7 +32,8 @@ except ImportError:
         PLATFORM_SCHEMA,
     )
 
-__version__ = "0.3.4"
+
+__version__ = "0.3.5"
 
 _LOGGER = logging.getLogger(__name__)
 
