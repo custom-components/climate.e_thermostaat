@@ -1,42 +1,55 @@
 """
 Adds support for the Essent Icy E-Thermostaat units.
+
 For more details about this platform, please refer to the documentation at
 https://github.com/custom-components/climate.e_thermostaat
 """
 import logging
+
 import requests
+
+import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
+from homeassistant.components.climate.const import (
+    CURRENT_HVAC_HEAT,
+    CURRENT_HVAC_IDLE,
+    HVAC_MODE_HEAT,
+    SUPPORT_PRESET_MODE,
+    SUPPORT_TARGET_TEMPERATURE,
+)
+from homeassistant.const import (
+    ATTR_TEMPERATURE,
+    CONF_PASSWORD,
+    CONF_USERNAME,
+    TEMP_CELSIUS,
+)
 
 try:
     from homeassistant.components.climate import ClimateEntity, PLATFORM_SCHEMA
 except ImportError:
-    from homeassistant.components.climate import ClimateDevice as ClimateEntity, PLATFORM_SCHEMA
-from homeassistant.components.climate.const import (
-    HVAC_MODE_HEAT, PRESET_AWAY, PRESET_COMFORT, PRESET_HOME, PRESET_SLEEP,
-    SUPPORT_PRESET_MODE, SUPPORT_TARGET_TEMPERATURE, CURRENT_HVAC_HEAT,
-    CURRENT_HVAC_IDLE)
-from homeassistant.const import (
-    ATTR_TEMPERATURE, CONF_USERNAME, CONF_PASSWORD, TEMP_CELSIUS)
-import homeassistant.helpers.config_validation as cv
+    from homeassistant.components.climate import (
+        ClimateDevice as ClimateEntity,
+        PLATFORM_SCHEMA,
+    )
 
-__version__ = '0.3.4'
+__version__ = "0.3.4"
 
 _LOGGER = logging.getLogger(__name__)
 
 URL_LOGIN = "https://portal.icy.nl/login"
 URL_DATA = "https://portal.icy.nl/data"
 
-DEFAULT_NAME = 'E-Thermostaat'
+DEFAULT_NAME = "E-Thermostaat"
 
-CONF_NAME = 'name'
-CONF_COMFORT_TEMPERATURE = 'comfort_temperature'
-CONF_SAVING_TEMPERATURE = 'saving_temperature'
-CONF_AWAY_TEMPERATURE = 'away_temperature'
+CONF_NAME = "name"
+CONF_COMFORT_TEMPERATURE = "comfort_temperature"
+CONF_SAVING_TEMPERATURE = "saving_temperature"
+CONF_AWAY_TEMPERATURE = "away_temperature"
 
-STATE_COMFORT = "Comfortstand"            # "comfort"
-STATE_SAVING = "Bespaarstand"             # "saving"
-STATE_AWAY = "Lang-weg-stand"             # "away"
-STATE_FIXED_TEMP = "Vaste temperatuur"    # "fixed temperature"
+STATE_COMFORT = "Comfortstand"  # "comfort"
+STATE_SAVING = "Bespaarstand"  # "saving"
+STATE_AWAY = "Lang-weg-stand"  # "away"
+STATE_FIXED_TEMP = "Vaste temperatuur"  # "fixed temperature"
 
 DEFAULT_COMFORT_TEMPERATURE = 20
 DEFAULT_SAVING_TEMPERATURE = 17
@@ -55,20 +68,26 @@ FIXED_TEMP = 128
 SUPPORT_FLAGS = SUPPORT_PRESET_MODE | SUPPORT_TARGET_TEMPERATURE
 SUPPORT_PRESET = [STATE_AWAY, STATE_COMFORT, STATE_FIXED_TEMP, STATE_SAVING]
 
-PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
-    vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
-    vol.Required(CONF_USERNAME): cv.string,
-    vol.Required(CONF_PASSWORD): cv.string,
-    vol.Optional(CONF_AWAY_TEMPERATURE, default=DEFAULT_AWAY_TEMPERATURE):
-        vol.Coerce(float),
-    vol.Optional(CONF_SAVING_TEMPERATURE, default=DEFAULT_SAVING_TEMPERATURE):
-        vol.Coerce(float),
-    vol.Optional(CONF_COMFORT_TEMPERATURE,
-                 default=DEFAULT_COMFORT_TEMPERATURE): vol.Coerce(float)
-})
+PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
+    {
+        vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
+        vol.Required(CONF_USERNAME): cv.string,
+        vol.Required(CONF_PASSWORD): cv.string,
+        vol.Optional(
+            CONF_AWAY_TEMPERATURE, default=DEFAULT_AWAY_TEMPERATURE
+        ): vol.Coerce(float),
+        vol.Optional(
+            CONF_SAVING_TEMPERATURE, default=DEFAULT_SAVING_TEMPERATURE
+        ): vol.Coerce(float),
+        vol.Optional(
+            CONF_COMFORT_TEMPERATURE, default=DEFAULT_COMFORT_TEMPERATURE
+        ): vol.Coerce(float),
+    }
+)
+
 
 def setup_platform(hass, config, add_entities, discovery_info=None):
-    """Setup the E-Thermostaat Platform."""
+    """Set up the E-Thermostaat platform."""
     name = config.get(CONF_NAME)
     comfort_temp = config.get(CONF_COMFORT_TEMPERATURE)
     saving_temp = config.get(CONF_SAVING_TEMPERATURE)
@@ -76,15 +95,15 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     username = config.get(CONF_USERNAME)
     password = config.get(CONF_PASSWORD)
 
-    add_entities([EThermostaat(
-        name, username, password,
-        comfort_temp, saving_temp, away_temp)])
+    add_entities(
+        [EThermostaat(name, username, password, comfort_temp, saving_temp, away_temp)]
+    )
+
 
 class EThermostaat(ClimateEntity):
     """Representation of a E-Thermostaat device."""
 
-    def __init__(self, name, username, password,
-                 comfort_temp, saving_temp, away_temp):
+    def __init__(self, name, username, password, comfort_temp, saving_temp, away_temp):
         """Initialize the thermostat."""
         self._name = name
         self._username = username
@@ -112,11 +131,11 @@ class EThermostaat(ClimateEntity):
     @property
     def unique_id(self) -> str:
         """Return the unique ID for this thermostat."""
-        return '_'.join([self._name, 'climate'])
+        return "_".join([self._name, "climate"])
 
     @property
     def should_poll(self):
-        """Polling is required."""
+        """Return if polling is required."""
         return True
 
     @property
@@ -190,8 +209,7 @@ class EThermostaat(ClimateEntity):
         elif preset_mode == STATE_AWAY:
             self._set_temperature(self._away_temp, mode_int=AWAY)
         elif preset_mode == STATE_FIXED_TEMP:
-            self._set_temperature(self._target_temperature,
-                                  mode_int=FIXED_TEMP)
+            self._set_temperature(self._target_temperature, mode_int=FIXED_TEMP)
 
     def set_temperature(self, **kwargs):
         """Set new target temperature."""
@@ -208,41 +226,41 @@ class EThermostaat(ClimateEntity):
             # overwrite first int to set mode
             if mode_int is not None:
                 payload_new.append(("configuration[]", mode_int))
-            elif self._current_operation_mode \
-                    and self._current_operation_mode == STATE_FIXED_TEMP:
+            elif (
+                self._current_operation_mode
+                and self._current_operation_mode == STATE_FIXED_TEMP
+            ):
                 payload_new.append(("configuration[]", FIXED_TEMP))
             else:
                 payload_new.append(("configuration[]", COMFORT))
             mode_int = payload_new[1][1]
             # append old config not to overwrite old settings
             for i in self._old_conf[1:]:
-                payload_new.append(('configuration[]', i))
+                payload_new.append(("configuration[]", i))
 
-        if self._request_with_retry(URL_DATA, payload_new,
-                                    request_type='post'):
+        if self._request_with_retry(URL_DATA, payload_new, request_type="post"):
             # update state values since we assume update was successful
-            self._current_operation_mode = \
-                self.map_int_to_operation_mode(mode_int)
+            self._current_operation_mode = self.map_int_to_operation_mode(mode_int)
             self._target_temperature = temperature
             # self.schedule_update_ha_state(force_refresh=True)
 
     def get_token_and_uid(self):
         """Get the Session Token and UID of the Thermostaat."""
-        payload = {'username': self._username, 'password': self._password}
+        payload = {"username": self._username, "password": self._password}
         with requests.Session() as s:
             try:
                 s.get(URL_LOGIN)
                 r = s.post(URL_LOGIN, data=payload)
                 res = r.json()
-                self._token = res['token']
-                self._uid = res['serialthermostat1']
+                self._token = res["token"]
+                self._uid = res["serialthermostat1"]
             except Exception as e:
                 _LOGGER.error("Could not get token and uid: %s" % e)
 
     def _send_request_with_header(self, url, payload, request_type):
-        """Sends a request with header set the uid if necessary."""
-        header = {'Session-token': self._token}
-        if request_type == 'get':
+        """Send the request with header and set the uid if necessary."""
+        header = {"Session-token": self._token}
+        if request_type == "get":
             # for get data just use payload as is
             payload_new = payload
             req_func = requests.get
@@ -255,8 +273,7 @@ class EThermostaat(ClimateEntity):
             r = req_func(url, data=payload_new, headers=header)
             return r
         except Exception as e:
-            _LOGGER.error("Could not connect to E-Thermostaat."
-                          "error: %s" % e)
+            _LOGGER.error("Could not connect to E-Thermostaat." "error: %s" % e)
 
     def _request_with_retry(self, url, payload, request_type):
         """Try once with old token, if fails get new token and try again."""
@@ -265,29 +282,29 @@ class EThermostaat(ClimateEntity):
         r = self._send_request_with_header(url, payload, request_type)
 
         # if unauthorized, get new token and uid
-        if r is None or r.json()['status']['code'] == 401:
+        if r is None or r.json()["status"]["code"] == 401:
             self.get_token_and_uid()
             r = self._send_request_with_header(url, payload, request_type)
         # Code 200 is success
-        if r is None or not r.json()['status']['code'] == 200:
-            _LOGGER.error("Could not set temperature, "
-                          "error on the server side")
+        if r is None or not r.json()["status"]["code"] == 200:
+            _LOGGER.error("Could not set temperature, " "error on the server side")
         return r
 
     def _get_data(self):
         """Get the data of the E-Thermostaat."""
-        payload = (('username', self._username), ('password', self._password))
+        payload = (("username", self._username), ("password", self._password))
 
-        r = self._request_with_retry(URL_DATA, payload, request_type='get')
+        r = self._request_with_retry(URL_DATA, payload, request_type="get")
         if r:
             data = r.json()
 
-            self._target_temperature = data['temperature1']
-            self._current_temperature = data['temperature2']
+            self._target_temperature = data["temperature1"]
+            self._current_temperature = data["temperature2"]
 
-            self._old_conf = data['configuration']
-            self._current_operation_mode = \
-                self.map_int_to_operation_mode(self._old_conf[0])
+            self._old_conf = data["configuration"]
+            self._current_operation_mode = self.map_int_to_operation_mode(
+                self._old_conf[0]
+            )
             _LOGGER.debug("E-Thermostaat value: {}".format(self._old_conf[0]))
         else:
             _LOGGER.error("Could not get data from E-Thermostaat.")
