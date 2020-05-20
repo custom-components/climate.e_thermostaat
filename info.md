@@ -24,6 +24,7 @@
 
 ![Validate with HACS](https://github.com/custom-components/climate.e_thermostaat/workflows/Validate%20with%20HACS/badge.svg)
 ![Validate with hassfest](https://github.com/custom-components/climate.e_thermostaat/workflows/Validate%20with%20hassfest/badge.svg)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 [![mantained](https://img.shields.io/maintenance/no/2020.svg)](#)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
