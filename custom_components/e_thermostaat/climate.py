@@ -25,13 +25,15 @@ from homeassistant.const import (
 )
 
 try:
-    from homeassistant.components.climate import ClimateEntity, PLATFORM_SCHEMA
+    from homeassistant.components.climate import (
+        ClimateEntity,
+        PLATFORM_SCHEMA,
+    )
 except ImportError:
     from homeassistant.components.climate import (
         ClimateDevice as ClimateEntity,
         PLATFORM_SCHEMA,
     )
-
 
 __version__ = "0.3.5"
 
