@@ -3,7 +3,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 
-[![maintained](https://img.shields.io/maintenance/no/2020.svg)](#)
+[![maintained](https://img.shields.io/maintenance/no/2021.svg)](#)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
 [![Community Forum](https://img.shields.io/badge/community-forum-brightgreen.svg)](https://community.home-assistant.io/t/e-thermostaat-icy/493?u=gerard33)
 
