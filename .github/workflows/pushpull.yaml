@@ -9,20 +9,21 @@ on:  # yamllint disable-line rule:truthy
   pull_request:
 
 jobs:
+  hacs:
+    name: HACS Action
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "actions/checkout@v2"
+      - name: HACS Action
+        uses: "hacs/action@main"
+        with:
+          category: "integration"
+          ignore: brands
   validate:
     runs-on: "ubuntu-latest"
     name: Validate
     steps:
       - uses: "actions/checkout@v2"
-
-      - name: HACS validation
-        uses: "hacs/action"
-        env:
-          SKIP_BRANDS_CHECK: "True"
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CATEGORY: "integration"
-
       - name: Hassfest validation
         uses: "home-assistant/actions/hassfest@master"
 
