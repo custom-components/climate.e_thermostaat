@@ -170,7 +170,7 @@ class EThermostaat(ClimateEntity):
         return self._target_temperature
     
     @property
-    def available() -> bool:
+    def available(self) -> bool:
         return self._last_seen and datetime.datetime.now() - self._last_seen < datetime.timedelta(seconds=600)
 
     @property
