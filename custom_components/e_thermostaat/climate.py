@@ -4,6 +4,8 @@ Adds support for the Essent Icy E-Thermostaat units.
 For more details about this platform, please refer to the documentation at
 https://github.com/custom-components/climate.e_thermostaat
 """
+import datetime
+
 import logging
 
 import requests
@@ -118,6 +120,7 @@ class EThermostaat(ClimateEntity):
 
         self._current_temperature = None
         self._target_temperature = None
+        self._last_seen = None
         self._old_conf = None
         self._current_operation_mode = None
 
@@ -165,6 +168,11 @@ class EThermostaat(ClimateEntity):
     def target_temperature(self):
         """Return the temperature we try to reach."""
         return self._target_temperature
+    
+    @property
+    def available(self) -> bool:
+        """Return True if entity is available."""
+        return self._last_seen and datetime.datetime.now() - self._last_seen < datetime.timedelta(seconds=600)
 
     @property
     def hvac_mode(self):
@@ -303,6 +311,8 @@ class EThermostaat(ClimateEntity):
 
             self._target_temperature = data["temperature1"]
             self._current_temperature = data["temperature2"]
+            
+            self._last_seen = datetime.datetime.strptime(data["last-seen"], '%Y-%m-%d %H:%M:%S')
 
             self._old_conf = data["configuration"]
             self._current_operation_mode = self.map_int_to_operation_mode(
