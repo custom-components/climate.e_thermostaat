@@ -171,6 +171,7 @@ class EThermostaat(ClimateEntity):
     
     @property
     def available(self) -> bool:
+        """Return True if entity is available."""
         return self._last_seen and datetime.datetime.now() - self._last_seen < datetime.timedelta(seconds=600)
 
     @property
