@@ -168,11 +168,15 @@ class EThermostaat(ClimateEntity):
     def target_temperature(self):
         """Return the temperature we try to reach."""
         return self._target_temperature
-    
+
     @property
     def available(self) -> bool:
         """Return True if entity is available."""
-        return self._last_seen and datetime.datetime.now() - self._last_seen < datetime.timedelta(seconds=600)
+        return (
+            self._last_seen
+            and datetime.datetime.now() - self._last_seen
+            < datetime.timedelta(seconds=600)
+        )
 
     @property
     def hvac_mode(self):
@@ -311,8 +315,10 @@ class EThermostaat(ClimateEntity):
 
             self._target_temperature = data["temperature1"]
             self._current_temperature = data["temperature2"]
-            
-            self._last_seen = datetime.datetime.strptime(data["last-seen"], '%Y-%m-%d %H:%M:%S')
+
+            self._last_seen = datetime.datetime.strptime(
+                data["last-seen"], "%Y-%m-%d %H:%M:%S"
+            )
 
             self._old_conf = data["configuration"]
             self._current_operation_mode = self.map_int_to_operation_mode(
