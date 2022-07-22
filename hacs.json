@@ -3,7 +3,5 @@
   "zip_release": true,
   "filename": "combined.zip",
   "hide_default_branch": true,
-  "domains": ["climate"],
-  "iot_class": "Cloud Polling",
   "homeassistant": "0.96.0"
 }
