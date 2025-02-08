@@ -5,20 +5,16 @@ For more details about this platform, please refer to the documentation at
 https://github.com/custom-components/climate.e_thermostaat
 """
 import datetime
-
+import asyncio
 import logging
-
 import requests
 
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers import entity_platform
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
-from homeassistant.components.climate.const import (
-    CURRENT_HVAC_HEAT,
-    CURRENT_HVAC_IDLE,
-    HVAC_MODE_HEAT,
-    SUPPORT_PRESET_MODE,
-    SUPPORT_TARGET_TEMPERATURE,
-)
+from homeassistant.components.climate import ClimateEntityFeature
+from homeassistant.components.climate import HVACAction, HVACMode
 from homeassistant.const import (
     ATTR_TEMPERATURE,
     CONF_PASSWORD,
@@ -37,7 +33,7 @@ except ImportError:
         PLATFORM_SCHEMA,
     )
 
-__version__ = "0.3.5"
+__version__ = "0.4.0"
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -70,7 +66,7 @@ SAVING = 64
 AWAY = 0
 FIXED_TEMP = 128
 
-SUPPORT_FLAGS = SUPPORT_PRESET_MODE | SUPPORT_TARGET_TEMPERATURE
+SUPPORT_FLAGS = ClimateEntityFeature.PRESET_MODE | ClimateEntityFeature.TARGET_TEMPERATURE
 SUPPORT_PRESET = [STATE_AWAY, STATE_COMFORT, STATE_FIXED_TEMP, STATE_SAVING]
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
@@ -91,7 +87,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
 )
 
 
-def setup_platform(hass, config, add_entities, discovery_info=None):
+def setup_platform_sync(hass: HomeAssistant, config, add_entities, discovery_info=None):
     """Set up the E-Thermostaat platform."""
     name = config.get(CONF_NAME)
     comfort_temp = config.get(CONF_COMFORT_TEMPERATURE)
@@ -104,6 +100,9 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
         [EThermostaat(name, username, password, comfort_temp, saving_temp, away_temp)]
     )
 
+async def async_setup_platform(hass: HomeAssistant, config, add_entities, discovery_info=None):
+    """Asynchrone wrapper voor synchronoos platform setup."""
+    await hass.async_add_executor_job(setup_platform_sync, hass, config, add_entities, discovery_info)
 
 class EThermostaat(ClimateEntity):
     """Representation of a E-Thermostaat device."""
@@ -181,19 +180,19 @@ class EThermostaat(ClimateEntity):
     @property
     def hvac_mode(self):
         """Return hvac operation ie. heat, cool mode."""
-        return HVAC_MODE_HEAT
+        return HVACMode.HEAT
 
     @property
     def hvac_modes(self):
         """HVAC modes."""
-        return [HVAC_MODE_HEAT]
+        return [HVACMode.HEAT]
 
     @property
     def hvac_action(self):
         """Return the current running hvac operation."""
         if self._target_temperature < self._current_temperature:
-            return CURRENT_HVAC_IDLE
-        return CURRENT_HVAC_HEAT
+            return HVACAction.IDLE
+        return HVACAction.HEATING
 
     @property
     def preset_mode(self):
