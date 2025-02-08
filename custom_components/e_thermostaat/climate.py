@@ -5,12 +5,10 @@ For more details about this platform, please refer to the documentation at
 https://github.com/custom-components/climate.e_thermostaat
 """
 import datetime
-import asyncio
 import logging
 import requests
 
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers import entity_platform
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
 from homeassistant.components.climate import ClimateEntityFeature
