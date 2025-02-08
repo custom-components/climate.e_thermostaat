@@ -1,11 +1,11 @@
 {
   "domain": "e_thermostaat",
   "name": "ICY E-thermostaat",
-  "version": "0.0.0",
+  "codeowners": ["@gerard33"],
+  "dependencies": [],
   "documentation": "https://github.com/custom-components/climate.e_thermostaat",
+  "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/custom-components/climate.e_thermostaat/issues",
   "requirements": [],
-  "dependencies": [],
-  "codeowners": ["@gerard33"],
-  "iot_class": "cloud_polling"
+  "version": "0.0.0"
 }
